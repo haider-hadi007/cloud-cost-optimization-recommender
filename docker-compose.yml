@@ -1,0 +1,42 @@
+services:
+  api:
+    image: nginx:alpine
+    container_name: cloud-api
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  worker:
+    image: python:3.12-slim
+    container_name: cloud-worker
+    command: >
+      sh -c "while true;
+      do echo 'Cloud worker running';
+      sleep 30;
+      done"
+    restart: unless-stopped
+
+  test-service:
+    image: alpine:latest
+    container_name: cloud-test-service
+    command: >
+      sh -c "while true;
+      do echo 'Test workload running';
+      sleep 20;
+      done"
+    restart: unless-stopped
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: cloud-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=0
+      - AWS_DEFAULT_REGION=us-east-1
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
+    volumes:
+      - "./localstack-data:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: unless-stopped

@@ -1,0 +1,9 @@
+boto3
+docker
+pandas
+numpy
+scikit-learn
+streamlit
+plotly
+python-dotenv
+pytest

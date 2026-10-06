@@ -1,0 +1,11 @@
+.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+localstack-data/
+cloud_optimizer.db
+data/raw/*.csv
+data/processed/*.csv
+models/*.joblib
+.streamlit/
